@@ -5,10 +5,10 @@ from apps.clients.models import Client
 
 
 class Service(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='services')  # noqa: E501
-    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='services')  # noqa: E501
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='Serviços')  # noqa: E501
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='Carro')  # noqa: E501
     description = models.TextField('Descrição', null=True, blank=True)
-    observation = models.TextField('observações', null=True, blank=True)
+    observation = models.TextField('Observações', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Service'
