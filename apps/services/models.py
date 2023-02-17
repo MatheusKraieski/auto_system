@@ -1,11 +1,12 @@
 from django.db import models
-from apps.clients.models import Client
+
 from apps.cars.models import Car
+from apps.clients.models import Client
 
 
 class Service(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='services')
-    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='services')
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='services')  # noqa: E501
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='services')  # noqa: E501
     description = models.TextField('Descrição', null=True, blank=True)
     observation = models.TextField('observações', null=True, blank=True)
 
@@ -18,8 +19,10 @@ class Service(models.Model):
 
 
 class ServiceImage(models.Model):
-    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='images', verbose_name='service')
-    image = models.ImageField('Imagem', upload_to='uploads/service', max_length=100, null=True, blank=True)
+    service = models.ForeignKey(
+        Service, on_delete=models.CASCADE, related_name='images', verbose_name='service')  # noqa: E501
+    image = models.ImageField(
+        'Imagem', upload_to='uploads/service', max_length=100, null=True, blank=True)  # noqa: E501
 
     class Meta:
         verbose_name = 'image'

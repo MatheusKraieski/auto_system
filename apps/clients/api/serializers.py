@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from apps.clients.models import Client
-from django.db import transaction
 
+from apps.clients.models import Client
 
 
 class ClientSerializer(serializers.ModelSerializer):
@@ -19,4 +18,4 @@ class ClientSerializer(serializers.ModelSerializer):
             return {'detail': 'Cliente created successfully.'}, 201
         except Exception as e:
             print(e)
-            return {'detail': 'Cliente não pode ser criado.'}, 400   
+            return {'detail': 'Cliente não pode ser criado.'}, 400
