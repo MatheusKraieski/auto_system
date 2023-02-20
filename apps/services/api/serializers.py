@@ -1,3 +1,5 @@
+from typing import List
+
 from django.db import transaction
 from rest_framework import serializers
 
@@ -9,6 +11,7 @@ class ServiceSerializer(serializers.ModelSerializer):
         try:
             with transaction.atomic():
                 service = Service.objects.create(
+                    ref_code=request.data.get("ref_code"),
                     client_id=request.data.get("client_id"),
                     car_id=request.data.get('car_id'),
                     description=request.data.get("description"),
@@ -35,13 +38,16 @@ class ServiceSerializer(serializers.ModelSerializer):
         service_dict = self.build_service_dict(service)
         return service_dict, 200
 
-    def build_service_dict(self, service):
-        service_dict = {
-            "id": service.pk,
-            "client_id": service.client_id,
-            "car_id": service.car_id,
-            "description": service.favorite,
-            "observation": service.inventory_number,
-        }
+    def build_service_dict(self, services: List[Service]):
+        service_dict = []
+        for service in services:
+            service_dict = {
+                "ref-code": service.ref_code,
+                "client_id": service.client_id,
+                "car_id": service.car_id,
+                "description": service.description,
+                "observation": service.observation,
+                "image": service.images.values(),
+            }
 
         return service_dict
