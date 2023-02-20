@@ -1,3 +1,7 @@
+from django.urls import reverse
 
-def test_the_pytest_is_ok():
-    assert 1 == 1
+
+class TestURL():
+    def test_client_url(self):
+        response = reverse('values')
+        self.assertEqual(response, '/api/v1/clients')
