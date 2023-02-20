@@ -5,7 +5,7 @@ from apps.clients.models import Client
 
 
 class Service(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='Serviços')  # noqa: E501
+    client_id = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='Serviços')  # noqa: E501
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='Carro')  # noqa: E501
     description = models.TextField('Descrição', null=True, blank=True)
     observation = models.TextField('Observações', null=True, blank=True)

@@ -1,16 +1,17 @@
 from rest_framework import serializers
 from apps.services.models import Service
+from apps.clients.models import Client
 from django.db import transaction
 
 
 
 class ServiceSerializer(serializers.ModelSerializer):
-    def add_client(self, request):
+    def create_service(self, request):
         try:
             with transaction.atomic():
                 service = Service.objects.create(
-                    client=request.data.get('client'),
-                    car=request.data.get('car'),
+                    client_id=request.data.get("client_id"),
+                    car_id=request.data.get('car_id'),
                     description=request.data.get("description"),
                     observation=request.data.get('observation'),
                 )
@@ -26,19 +27,13 @@ class ServiceSerializer(serializers.ModelSerializer):
         service_dict = self.build_service_dict(service)
         return service_dict, 200
     
-    def build_service_dict(self, service):
+    def build_service_dict(self, service ):
         service_dict = {
             "id": service.pk,
-            "name": service.name,
-            "category_id": service.category_id,
-            "cost": service.cost,
-            "inventory_number": service.inventory_number,
-            "favorite": service.favorite,
-            "image": service.images.values(),
-            "categories": []
+            "client_id": service.client_id,
+            "car_id": service.car_id,
+            "description": service.favorite,
+            "observation": service.inventory_number,
         }
 
-        for category in product_categories:
-            product_dict["categories"].append(self.build_category_dict(category))
-
-        return product_dict
+        return service_dict
