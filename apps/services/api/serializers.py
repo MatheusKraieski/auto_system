@@ -44,23 +44,42 @@ class ServiceSerializer(serializers.ModelSerializer):
         for service in services:
             services_dict = self.build_service_dict(service)
             service_list_dict.append(services_dict)
-            
-        return service_list_dict, 200
 
+        return service_list_dict, 200
 
     def build_service_dict(self, service):
         service_dict = {
             "ref-code": service.ref_code,
-            "client_id": service.client_id,
-            "client_name":service.client.name,
-            "client_first_phone":service.client.first_phone,
-            "car_id": service.car_id,
-            "car_name": service.car.name,
-            "car_color": service.car.color,
-            "car_plate": service.car.plate,
             "description": service.description,
             "observation": service.observation,
             "image": service.images.values(),
-            }
+            "client": {
+                "id": service.client_id,
+                "name": service.client.name,
+                "first_phone": service.client.first_phone,
+            },
+            "car": {
+                "id": service.car_id,
+                "name": service.car.name,
+                "color": service.car.color,
+                "plate": service.car.plate,
+            },
+        }
 
         return service_dict
+
+    def update_service(self, service, request):
+        try:
+            with transaction.atomic():
+                service.observation = request.data.get("observation", service.ref_code)  # noqa: E501
+                if request.data:
+                    images = request.data.getlist("images")
+                    if images:
+                        service.images.all().delete()
+                        self.add_images_to_service(service, images)
+
+                service.save()
+                return {"detail": "Service was updated successfully."}, 201
+        except Exception as e:
+            print(e)
+            return {"error": "Service could not be changed."}, 400

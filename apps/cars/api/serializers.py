@@ -1,5 +1,6 @@
-from apps.cars.models import Car
 from django.db import transaction
+
+from apps.cars.models import Car
 
 
 class CarSerializer:
@@ -12,7 +13,7 @@ class CarSerializer:
                     plate=request.data.get('plate'),
                     year=request.data.get('year'),
                     km=request.data.get('km'),
-                    color=request.data.get('color'),                    
+                    color=request.data.get('color'),
                 )
 
             return {"detail": "Car created successfully."}, 201
