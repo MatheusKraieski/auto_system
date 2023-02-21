@@ -18,7 +18,7 @@ class ServiceSerializer(serializers.ModelSerializer):
                     observation=request.data.get('observation'),
                 )
 
-                self.add_images_to_product(
+                self.add_images_to_service(
                     service, request.data.getlist('images'))
 
             return {'detail': 'Service created successfully.'}, 201
@@ -27,7 +27,7 @@ class ServiceSerializer(serializers.ModelSerializer):
             return {'detail': 'Service could not be created.'}, 400
 
     @staticmethod
-    def add_images_to_product(service, images):
+    def add_images_to_service(service, images):
         for image in images:
             ServiceImage.objects.create(
                 service=service,
@@ -38,16 +38,29 @@ class ServiceSerializer(serializers.ModelSerializer):
         service_dict = self.build_service_dict(service)
         return service_dict, 200
 
-    def build_service_dict(self, services: List[Service]):
-        service_dict = []
+    def get_all_services(self, services):
+        service_list_dict = []
+
         for service in services:
-            service_dict = {
-                "ref-code": service.ref_code,
-                "client_id": service.client_id,
-                "car_id": service.car_id,
-                "description": service.description,
-                "observation": service.observation,
-                "image": service.images.values(),
+            services_dict = self.build_service_dict(service)
+            service_list_dict.append(services_dict)
+            
+        return service_list_dict, 200
+
+
+    def build_service_dict(self, service):
+        service_dict = {
+            "ref-code": service.ref_code,
+            "client_id": service.client_id,
+            "client_name":service.client.name,
+            "client_first_phone":service.client.first_phone,
+            "car_id": service.car_id,
+            "car_name": service.car.name,
+            "car_color": service.car.color,
+            "car_plate": service.car.plate,
+            "description": service.description,
+            "observation": service.observation,
+            "image": service.images.values(),
             }
 
         return service_dict

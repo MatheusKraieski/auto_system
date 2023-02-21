@@ -15,7 +15,7 @@ class ServiceList(APIView):
     def get(self, request):
         serializer = ServiceSerializer()
         service = Service.objects.all()
-        response, status = serializer.get_service(service)
+        response, status = serializer.get_all_services(service)
         return Response(response, status)
 
     def post(self, request):
