@@ -1,7 +1,9 @@
+import pytest
 from django.urls import reverse
 
 
-class TestURL():
-    def test_client_url(self):
-        response = reverse('values')
-        self.assertEqual(response, '/api/v1/clients')
+@pytest.mark.django_db
+def test_client_status_code_200_ok(client):
+    url = reverse('clients')
+    response = client.get(url)
+    assert response.status_code == 200

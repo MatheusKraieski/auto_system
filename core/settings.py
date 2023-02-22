@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'apps.cars',
     'apps.clients',
     'apps.services',
+    'django_extensions'
 
 ]
 
