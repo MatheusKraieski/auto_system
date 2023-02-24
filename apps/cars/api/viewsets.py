@@ -14,3 +14,7 @@ class CarList(APIView):
     def post(self, request):
         response, status = self.serializer.create_car(request)
         return Response(response, status)
+
+    def get(self, request):
+        response, status = self.serializer.get_all_cars(request)
+        return Response(response, status)
