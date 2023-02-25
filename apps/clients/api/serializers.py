@@ -1,9 +1,7 @@
-from rest_framework import serializers
-
 from apps.clients.models import Client
 
 
-class ClientSerializer(serializers.ModelSerializer):
+class ClientSerializer:
     def add_client(self, request):
         try:
             Client.objects.create(
@@ -19,3 +17,4 @@ class ClientSerializer(serializers.ModelSerializer):
         except Exception as e:
             print(e)
             return {'detail': 'Cliente não pode ser criado.'}, 400
+
