@@ -32,7 +32,7 @@ class CarSerializer:
                 car.color = request.data.get("color", car.color)  # noqa: E501
 
                 car.save()
-                return {"detail": "Product was updated successfully."}, 201
+                return {"detail": "car was updated successfully."}, 201
         except Exception as e:
             print(e)
             return {"error": "car could not be changed."}, 400
