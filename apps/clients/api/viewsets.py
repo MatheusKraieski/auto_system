@@ -10,11 +10,12 @@ from apps.clients.models import Client
 
 
 class ClientList(APIView):
+    serializer = ClientSerializer()
     def get(self, request):
-        clients = Client.objects.values()
-        return Response(clients, 200)
+        client = Client.objects.all()
+        response, status = self.serializer.get_all_clients(client)
+        return Response(response, status)
 
-    def post(self, request):
-        serializer = ClientSerializer()
-        response, status = serializer.add_client(request)
+    def post(self, request):        
+        response, status = self.serializer.add_client(request)
         return Response(response, status)

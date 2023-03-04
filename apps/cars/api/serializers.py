@@ -45,6 +45,10 @@ class CarSerializer:
             car_list_dict.append(car_dict)
 
         return car_list_dict, 200
+    
+    def get_car(self, product):
+        car_dict = self.build_car_dict(product)
+        return car_dict, 200
 
     def build_car_dict(self, car):
         car_dict = {
@@ -56,3 +60,13 @@ class CarSerializer:
             "color": car.color
         }
         return car_dict
+
+    @staticmethod
+    def delete_car(car):
+        try:
+            if transaction.atomic():
+                car.delete()
+            return {"detail": "Car was deleted successfully"}, 201
+        except Exception as err:
+            print(err)
+            return {"error": "Car could not be deleted"}, 400
