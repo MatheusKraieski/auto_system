@@ -40,7 +40,7 @@ class ClientSerializer:
         }
         return client_dict
     
-    def update_car(self, client, request):
+    def update_client(self, client, request):
         try:
             with transaction.atomic():
                 client.name = request.data.get("name", client.name)
@@ -55,3 +55,12 @@ class ClientSerializer:
         except Exception as e:
             print(e)
             return {"error": "client could not be changed."}, 400
+
+    def delete_client(self, client, request):
+        try:
+            if transaction.atomic():
+                client.delete()
+            return {"detail": "Client was deleted successfully"}, 201
+        except Exception as err:
+            print(err)
+            return {"error": "Client could not be deleted"}, 400

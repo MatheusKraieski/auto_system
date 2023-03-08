@@ -19,3 +19,22 @@ class ClientList(APIView):
     def post(self, request):        
         response, status = self.serializer.add_client(request)
         return Response(response, status)
+
+class ClientDetail(APIView):
+    parser_classes = (MultiPartParser,)
+    serializer = ClientSerializer()
+
+    def get(self, request, client_pk):
+        client = get_object_or_404(Client, pk=client_pk)
+        response, status = self.serializer.get_client(client)
+        return Response(response, status)
+    
+    def put(self, request, client_pk):
+        client = get_object_or_404(Client, pk=client_pk)
+        response, status = self.serializer.update_client(client)
+        return Response(response, status)
+    
+    def delete(self, request, client_pk):
+        client = get_object_or_404(Client, pk=client_pk)
+        response, status = self.serializer.delete_client(client)
+        return Response(response, status)    
