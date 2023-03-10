@@ -32,3 +32,13 @@ class ServiceDetail(APIView):
         service = get_object_or_404(Service, pk=service_pk)
         response, status = self.serializer.get_service(service)
         return Response(response, status)
+    
+    def put(self, request, service_pk):
+        service = get_object_or_404(Service, pk=service_pk)
+        response, status = self.serializer.update_service(service, request)
+        return Response(response, status)
+    
+    def delete(self, request, service_pk):
+        service = get_object_or_404(Client, pk=service_pk)
+        response, status = self.serializer.delete_service(service)
+        return Response(response, status)    

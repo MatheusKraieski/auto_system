@@ -83,3 +83,12 @@ class ServiceSerializer(serializers.ModelSerializer):
         except Exception as e:
             print(e)
             return {"error": "Service could not be changed."}, 400
+
+    def delete_service(self, service, request):
+        try:
+            if transaction.atomic():
+                service.delete()
+            return {"detail": "Service was deleted successfully"}, 201
+        except Exception as err:
+            print(err)
+            return {"error": "Service could not be deleted"}, 400
