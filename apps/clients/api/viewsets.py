@@ -31,7 +31,7 @@ class ClientDetail(APIView):
     
     def put(self, request, client_pk):
         client = get_object_or_404(Client, pk=client_pk)
-        response, status = self.serializer.update_client(client)
+        response, status = self.serializer.update_client(client, request)
         return Response(response, status)
     
     def delete(self, request, client_pk):

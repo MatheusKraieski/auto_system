@@ -24,3 +24,11 @@ class ServiceList(APIView):
         client = Client.objects.get(pk=request.data.get('client_id'))
         response, status = serializer.create_service(request, car, client)
         return Response(response, status)
+
+class ServiceDetail(APIView):
+    serializer = ServiceSerializer()
+    
+    def get(self, request, service_pk):
+        service = get_object_or_404(Service, pk=service_pk)
+        response, status = self.serializer.get_service(service)
+        return Response(response, status)
